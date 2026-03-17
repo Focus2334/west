@@ -105,6 +105,41 @@ class Gatling extends Creature {
     }
 }
 
+class Lad extends Dog {
+    constructor() {
+        super();
+    }
+
+    static count = 0;
+
+    modifyTakenDamage(value, fromCard, gameContext, continuation) {
+        this.view.signalAbility(() => {
+            const reducedDamage = Math.max(0, value - (Lad.count * (Lad.count + 1) / 2));
+            console.log(reducedDamage);
+            super.modifyTakenDamage(reducedDamage, fromCard, gameContext, continuation);
+        });
+    }
+
+    modifyDealedDamageToCreature(value, toCard, gameContext, continuation) {
+        const extendedDamage = Math.max(0, value + (Lad.count * (Lad.count + 1) / 2));
+        console.log(extendedDamage);
+        //super.modifyTakenDamage(extendedDamage, fromCard, gameContext, continuation);
+        continuation(value);
+    }
+
+    doBeforeRemoving(continuation) {
+        Lad.count -= 1;
+        super.doBeforeRemoving(continuation);
+        console.log(Lad.count);
+    }
+
+    doAfterComingIntoPlay(gameContext, continuation) {
+        Lad.count += 1;
+        super.doAfterComingIntoPlay(gameContext, continuation)
+        console.log(Lad.count)
+    }
+}
+
 
 // Колода Шерифа, нижнего игрока.
 const seriffStartDeck = [
@@ -116,9 +151,9 @@ const seriffStartDeck = [
 
 // Колода Бандита, верхнего игрока.
 const banditStartDeck = [
-    new Trasher(),
-    new Dog(),
-    new Dog(),
+    new Lad(),
+    new Lad(),
+    new Lad(),
 ];
 
 
