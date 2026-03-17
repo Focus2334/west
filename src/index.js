@@ -61,6 +61,18 @@ class Dog extends Creature {
     }
 }
 
+class PseudoDuck extends Dog {
+    constructor() {
+        super();
+    }
+    quacks = function () {
+        console.log('quack')
+    };
+    swims = function () {
+        console.log('float: both;')
+    };
+}
+
 class Trasher extends Dog {
     constructor() {
         super("Trasher", 5);
@@ -146,14 +158,12 @@ const seriffStartDeck = [
     new Duck(),
     new Duck(),
     new Duck(),
-    new Gatling(),
 ];
-
 // Колода Бандита, верхнего игрока.
 const banditStartDeck = [
-    new Lad(),
-    new Lad(),
-    new Lad(),
+    new Dog(),
+    new PseudoDuck(),
+    new Dog(),
 ];
 
 
